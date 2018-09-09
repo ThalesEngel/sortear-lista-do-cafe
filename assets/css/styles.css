@@ -1,0 +1,16 @@
+body{
+  margin-top:30px;
+}
+.table{
+    max-width: 300px;;
+}
+
+.form input.ha-erros {
+    border-color: #FA787E;
+    box-shadow: 0 0 0 0.2rem #FA787E;
+  }
+
+  .form input.ng-valid.ng-touched.form-control:focus {    
+    border-color: #78FA89;
+    box-shadow: 0 0 0 0.2rem #78FA89;
+  }

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Coffee Challange</title>
+    <!-- STYLES -->
+    <link rel="shortcut icon" href="../assets/img/favicon.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+
+    <!-- ANGULAR -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <!-- BOOSTRAP SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+
+    <!-- APP SCRIPTS -->
+    <script src="./app.module.js"></script>
+    <script src="./ListaPessoas/listaPessoas.controller.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div ng-app="app" ng-controller="listaPessoasCtrl as listaPessoas">
+            <h2>Lista do Café</h2>
+            <form id="pForm" class="form" name="pForm" ng-submit="listaPessoas.submit(listaPessoas.nome)" novalidate>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="pNome" class="mb-0">Nome </label>
+                            <input type="text" pattern=".{3,}" id="pNome" name="pNome" class="form-control" ng-model="listaPessoas.nome"
+                                required ng-class="{'ha-erros' : (pForm.$invalid || !nomeValido) && pForm.$submitted}">
+                            <div ng-show="pForm.$submitted">
+                                <span class="text-danger" ng-show="pForm.pNome.$error.required">Preencha o nome.</span>
+                                <span class="text-danger" ng-show="pForm.pNome.$error.pattern">O nome deve ter pelo
+                                    menos 3
+                                    caracteres</span>
+                                <span class="text-danger" ng-hide="listaPessoas.nomeValido">
+                                    Já existe uma pessoa cadastada com esse nome
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Adicionar </button>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table  table-sm" ng-show="listaPessoas.listaPessoas.length > 0">
+                        <tr>
+                            <th></th>
+                            <th>
+                                Pessoas
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="pessoa in listaPessoas.listaPessoas track by $index">
+                            <td>
+                                <span ng-bind="$index + 1"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="pessoa"></span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" ng-click="listaPessoas.removerPessoa(pessoa)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary" ng-click="listaPessoas.sortearListaCafe()" ng-show="listaPessoas.listaPessoas.length > 0">
+                        <i class="fas fa-list"></i>
+                        Sortear Lista do Café
+                    </button>
+                    <!-- <h1>Olá <span ng-bind="nome"></span> <span ng-bind="lastName"></span></h1> -->
+                    <div class="mt-4" ng-show="listaPessoas.listaCafe.length > 0">
+                        <h6>Pessoas Manhã</h6>
+                        <ul>
+                            <li ng-repeat="pessoaManha in listaPessoas.listaCafe track by $index" ng-hide="$odd || $index >= 10">
+                                <span ng-bind="listaPessoas.exibirDia($index, false)"></span> - <span ng-bind="pessoaManha"></span>
+                            </li>
+                        </ul>
+                        <h6> Pessoas Tarde</h6>
+                        <ul>
+                            <li ng-repeat="pessoaTarde in listaPessoas.listaCafe track by $index" ng-hide="$even || $index >= 10">
+                                <span ng-bind="listaPessoas.exibirDia($index, true)"></span> - <span ng-bind="pessoaTarde"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
